@@ -7,7 +7,7 @@ class Student
   attr_reader :id
 
 
-  def initialize(name, grade, id = nil)
+  def initialize(name, grade, id=nil)
     @name = name
     @grade = grade
     @id = id 
@@ -15,9 +15,9 @@ class Student
   
   def self.create_table
     sql = <<-SQL
-      CREATE TABLE IF NOT EXISTS student (
-        id INTEGER PRIMARY KEY
-        name TEXT
+      CREATE TABLE IF NOT EXISTS students (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
         grade INTEGER
       )
       SQL
@@ -25,13 +25,13 @@ class Student
   end
 
   def self.drop_table
-    sql = DROP TABLE IF EXISTS student
+    sql = "DROP TABLE IF EXISTS students" #must be in quotes...BUT WHY?
     DB[:conn].execute(sql) #connecting the database file with ruby // conn = connect 
   end
 
   def save
     sql = <<-SQL
-      INSERT INTO student (name, grade)
+      INSERT INTO students (name, grade)
       VALUES (?, ?)
       SQL
     DB[:conn].execute(sql, self.name, self.grade)
@@ -43,6 +43,5 @@ class Student
     student.save
     student
   end
-  binding.pry
 
 end
